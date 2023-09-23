@@ -157,9 +157,9 @@ def param_inputs(col, input_params: dict, defaults: dict = {}):
     time_string = str(time_value)
     time_string += "ba" if time_units == "batches" else "ep"
     max_duration = ensure_time(time_string, TimeUnit.EPOCH)
-    epoch_size = col4.text_input('epoch size (samples)', value="-",
+    epoch_size = col4.text_input('epoch size (samples)', value="",
                                  help="epoch size for this run, in samples.")
-    epoch_size = None if epoch_size == "-" or epoch_size == "None" else int(epoch_size)
+    epoch_size = None if epoch_size == "" or epoch_size == "None" else int(epoch_size)
     device_batch_size = col4.number_input('device batch size', step=1,
                                           value=16 if "device_batch_size" not in defaults
                                             else defaults["device_batch_size"],
@@ -188,7 +188,7 @@ def param_inputs(col, input_params: dict, defaults: dict = {}):
                                          format="%.4f", help="time for one device to process one \
                                         sample from your dataset.")
     node_network_bandwidth = col4.text_input('network bandwidth per node (bytes/s)', 
-                                            value="1GB" if "node_network_bandwidth" not in defaults
+                                            value="500MB" if "node_network_bandwidth" not in defaults
                                                 else defaults["node_network_bandwidth"], 
                                             help="network bandwidth available to \
                                             each node. in practice, network bandwidth is \
@@ -212,12 +212,12 @@ def param_inputs(col, input_params: dict, defaults: dict = {}):
                                             into. a canonical node is a bucket of shards that is \
                                             assigned to a particular physical node.")
     predownload = col5.text_input('predownload per worker (samples)',
-                                  value="-" if "predownload" not in defaults
+                                  value="None" if "predownload" not in defaults
                                         else defaults["predownload"],
                                   help="number of samples ahead each worker should download. \
                                     predownload does not occur before the first batch; \
                                     rather, it occurs while training is ongoing.")
-    predownload = None if predownload == "-" or predownload == "None" else int(predownload)
+    predownload = None if predownload == "" or predownload == "None" else int(predownload)
     shuffle = col5.checkbox(label="shuffle", value=True if "shuffle" not in defaults
                                             else defaults["shuffle"],
                             help="whether or not to shuffle the samples for this run.")
@@ -235,7 +235,7 @@ def param_inputs(col, input_params: dict, defaults: dict = {}):
                                     help="shuffling algorithm to use for this run. your shuffle \
                                         parameters may affect model training.")
         shuffle_block_size = col5.text_input('shuffle block size (samples)',
-                                            value="100k" if "shuffle_block_size" not in defaults
+                                            value="16M" if "shuffle_block_size" not in defaults
                                                 else defaults["shuffle_block_size"], 
                                             help="shuffle block size for this run. \
                                                 used in the `py1b`, `py1br`, and `py1e` \
@@ -246,11 +246,11 @@ def param_inputs(col, input_params: dict, defaults: dict = {}):
                                 value=42 if "seed" not in defaults else defaults["seed"],
                                 help="random seed for shuffling.")
     cache_limit = col5.text_input('cache limit (bytes)',
-                                  value=7000000000 if "cache_limit" not in defaults
+                                  value="None" if "cache_limit" not in defaults
                                         else defaults["cache_limit"], 
                                   help="cache limit per node for this run. \
                                     setting cache limit too low will impact throughput.")
-    cache_limit = None if cache_limit=="-" or cache_limit=="None" else bytes_to_int(cache_limit)
+    cache_limit = None if cache_limit=="" or cache_limit=="None" else bytes_to_int(cache_limit)
     sampling_methods = ["balanced", "fixed"]
     sampling_method = col5.selectbox('sampling method', sampling_methods,
                                       index=0 if "sampling_method" not in defaults
