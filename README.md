@@ -11,7 +11,7 @@ Run the commands below to get simulating!
 git clone https://github.com/snarayan21/streaming-simulator.git
 cd streaming-simulator
 pip install -r requirements.txt
-make simulation
+make simulator
 ```
 ## 🔑 Key Features
 
