@@ -149,7 +149,7 @@ def param_inputs(col, input_params: dict, defaults: dict = {}):
                                        help="units of training duration.")
     else:
         time_value = col4.number_input('training duration', step=1,
-                                       value=5000,
+                                       value=1000,
                                        help="training duration value, in specified units.")
         time_units = col4.selectbox('units', ["batches", "epochs"],
                                        help="units of training duration.")
@@ -235,7 +235,7 @@ def param_inputs(col, input_params: dict, defaults: dict = {}):
                                     help="shuffling algorithm to use for this run. your shuffle \
                                         parameters may affect model training.")
         shuffle_block_size = col5.text_input('shuffle block size (samples)',
-                                            value="16M" if "shuffle_block_size" not in defaults
+                                            value="10M" if "shuffle_block_size" not in defaults
                                                 else defaults["shuffle_block_size"], 
                                             help="shuffle block size for this run. \
                                                 used in the `py1b`, `py1br`, and `py1e` \
